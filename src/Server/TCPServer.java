@@ -79,32 +79,30 @@ public class TCPServer {
         }
     }
     public static String encryption(String str, int rails) {
-        boolean checkdown = false;
+        str = str.toLowerCase();
+        boolean check = false;//kiểm tra đang đi xuống hay đi lên
         int j = 0;
         int row = rails;
         int col = str.length();
         char[][] a = new char[row][col];
 
+        //lấy các kí tự của chuỗi và xếp vào một ma trận a
         for(int i = 0; i < col; i++){ 
-            if (j == 0 || j == row - 1) {
-                checkdown = !checkdown;
+            if (j == 0 || j == row - 1){
+                check = !check;
             }
             a[j][i] = str.charAt(i);
-            if (checkdown) {
+            if (check){
                 j++;
             } else {
                 j--;
             }
         }
-        for(int i = 0; i < row; i++){
-            for (int k = 0; k < col; k++) {
-                System.out.print(a[i][k] + "  ");
-            }
-            System.out.println();
-        }
+        //truy cập ma trận theo thứ tự thông thường để lấy bản mã
+        //lưu bản mã thành một chuỗi để xuất
         String en = "";
         for(int i = 0; i < row; i++){
-            for (int k = 0; k < col; k++) {
+            for (int k = 0; k < col; k++){
                 if (a[i][k] != 0) {
                     en = en + a[i][k];
                 }
@@ -114,55 +112,52 @@ public class TCPServer {
     }
     
     public static String decryption(String str, int rails) {
-        boolean checkdown = false;
+        str = str.toLowerCase();
+        boolean check = false;
         int j = 0;
         int row = rails;
         int col = str.length();
         char[][] a = new char[row][col];
 
+        //lấy các kí tự của chuỗi
         for(int i = 0; i < col; i++){
-            if (j == 0 || j == row - 1) {
-                checkdown = !checkdown;
+            if (j == 0 || j == row - 1){
+                check = !check;
             }
-            a[j][i] = '*';
-            if (checkdown) {
+            a[j][i] = '*';//đánh dấu vị trí đường ray bằng * trong ma trận
+            if (check){
                 j++;
-            } else {
+            }else{
                 j--;
             }
         }
+        
+        //bây giờ nhập ký tự của bản mã vào vị trí ma trận có ký hiệu *
         int index = 0;
-
         for(int i = 0; i < row; i++){
-            for (int k = 0; k < col; k++) {
-                if (a[i][k] == '*' && index < str.length()) {
+            for (int k = 0; k < col; k++){
+                if (a[i][k] == '*' && index < str.length()){
                     a[i][k] = str.charAt(index++);
                 }
             }
         }
 
-        for (int i = 0; i < row; i++) {
-            for (int k = 0; k < col; k++) {
-                System.out.print(a[i][k] + "\t");
-            }
-            System.out.println();
-        }
-        checkdown = false;
+        check = false;
         String s = "";
         j = 0;
 
-        for (int i = 0; i < col; i++) {
-            if (j == 0 || j == row - 1) {
-                checkdown = !checkdown;
+        for (int i = 0; i < col; i++){
+            if (j == 0 || j == row - 1){
+                check = !check;
             }
             s += a[j][i];
-            if (checkdown) {
+            if (check){
                 j++;
             } else {
                 j--;
             }
         }
-        return s;
+        return s;//in chuỗi đã được giải mã bằng rail fence
     }
 
     static char getSecondChar(String str){
@@ -191,16 +186,8 @@ public class TCPServer {
         for (i=0; i< str.length(); i++)
             (count[str.charAt(i)])++;
 
-        char array[] = new char[str.length()];
         for (i=0; i< str.length(); i++){
             if(str.charAt(i)==sec){
-                array[i] = str.charAt(i);
-            int flag = 0;
-            for (int j=0; j<= i; j++){
-                if (str.charAt(i) == array[j])
-                    flag++;
-            }
-            if (flag == 1)
                 return count[str.charAt(i)];
             }
         }

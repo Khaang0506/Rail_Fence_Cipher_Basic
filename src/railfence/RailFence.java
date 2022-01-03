@@ -16,7 +16,7 @@ public class RailFence {
 
     public static void main(String arg[]) {
 
-        String str = "thuyoithu";
+        String str = "success";
         char res = getSecondChar(str);
         System.out.println(res);
         System.out.println("Enter the number of rails:");
@@ -179,5 +179,27 @@ public class RailFence {
         }
       
         return (char)second;
+    }
+    
+    static int getTimeSecondChar(String str, char sec){
+        int[] count = new int[256];
+        int i;
+        for (i=0; i< str.length(); i++)
+            (count[str.charAt(i)])++;
+
+        char array[] = new char[str.length()];
+        for (i=0; i< str.length(); i++){
+            if(str.charAt(i)==sec){
+                array[i] = str.charAt(i);
+                int flag = 0;
+                for (int j=0; j<= i; j++){
+                    if (str.charAt(i) == array[j])
+                        flag++;
+                }
+                if (flag == 1)
+                    return count[str.charAt(i)];
+            }
+        }
+        return 0;
     }
 }
